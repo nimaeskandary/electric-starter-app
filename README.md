@@ -1,6 +1,42 @@
 # Electric Starter App
 
-A minimal Electric Clojure app, and instructions on how to integrate it into an existing app. For more demos and examples, see [Electric Fiddle](https://github.com/hyperfiddle/electric-fiddle).
+A fork of https://github.com/hyperfiddle/electric-starter-app, to play around with making an application using [electric](https://github.com/hyperfiddle/electric)
+
+# Table of Contents
+1. [Changelog](#changelog)
+2. [Development](#development)
+3. [Instructions](#instructions)
+
+## Changelog
+
+* added an implementation of [component](https://github.com/stuartsierra/component), creating a system and injecting into the main web view
+* created a `UserRepository` component, making use of it to display a dummy user in the web view
+* added malli type checking to user repo functions
+
+## TODOs
+
+* refactor the jetty code that shipped with this to be a component
+* implement `UserRepository` for real using postgres
+* setup malli function type checking to only be in dev / test
+
+## Development
+
+### Dependencies
+
+* [java 21](https://adoptium.net/installation/)
+* [cljfmt](https://github.com/weavejester/cljfmt) 
+
+### Dev Environment
+
+I'm using Intellij Idea Community Edition and the Cursive plugin.
+
+To make things resolve correctly during development
+* add `deps.edn` as a new deps project
+* under `Aliases` in the Clojure Deps tool window, select just `dev`
+
+### Formatting
+
+* run `bin/format.sh`
 
 ## Instructions
 

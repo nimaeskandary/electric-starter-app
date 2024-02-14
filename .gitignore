@@ -13,3 +13,5 @@ node_modules
 /resources/electric-manifest.edn
 /target
 .DS_Store
+electric-starter-app.iml
+.idea/

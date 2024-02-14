@@ -2,7 +2,9 @@
   (:require
    electric-starter-app.main
    [hyperfiddle.electric :as e]
+   [malli.instrument :as mi]
    #?(:clj [electric-starter-app.server-jetty :as jetty])
+   #?(:clj [electric-starter-app.system :as system])
    #?(:clj [shadow.cljs.devtools.api :as shadow])
    #?(:clj [shadow.cljs.devtools.server :as shadow-server])
    #?(:clj [clojure.tools.logging :as log])))
@@ -27,11 +29,11 @@
 
        (def server (jetty/start-server!
                      (fn [ring-request]
-                       (e/boot-server {} electric-starter-app.main/Main ring-request))
+                       (e/boot-server {} electric-starter-app.main/Main ring-request system/*system*))
                      config))
 
-       (comment (.stop server))
-       )))
+       (comment (.stop server)))))
+
 
 #?(:cljs ;; Client Entrypoint
    (do
