@@ -1,4 +1,4 @@
-(ns electric-starter-app.main
+(ns electric-starter-app.app.main
   (:require
    #?(:clj [electric-starter-app.domain.users.user-repository :as user-repository])
    [hyperfiddle.electric :as e]

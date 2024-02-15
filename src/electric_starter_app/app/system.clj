@@ -1,12 +1,14 @@
-(ns electric-starter-app.system
+(ns electric-starter-app.app.system
   (:require
    [electric-starter-app.domain.users.postgres-user-repository :as user-repository]
    [com.stuartsierra.component :as component]))
 
-(defn- dev-system [config]
+(defn dev-system-map [config]
   (component/system-map
     :user-repository (user-repository/->PostgresUserRepository config)))
 
-(defn start-dev-system [] (component/start (dev-system {})))
+(def dependency-map {})
 
-(defonce ^:dynamic *system* (start-dev-system))
+(defn create-dev-system [config] (component/system-using (dev-system-map config) dependency-map))
+
+(defonce ^:dynamic *system* nil)

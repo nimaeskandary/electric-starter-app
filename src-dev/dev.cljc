@@ -1,18 +1,18 @@
 (ns dev
   (:require
-   electric-starter-app.main
-   [hyperfiddle.electric :as e]
-   [malli.instrument :as mi]
-   #?(:clj [electric-starter-app.server-jetty :as jetty])
-   #?(:clj [electric-starter-app.system :as system])
-   #?(:clj [shadow.cljs.devtools.api :as shadow])
-   #?(:clj [shadow.cljs.devtools.server :as shadow-server])
-   #?(:clj [clojure.tools.logging :as log])))
-
-(comment (-main)) ; repl entrypoint
+    electric-starter-app.app.main
+    [hyperfiddle.electric :as e]
+    #?(:clj [electric-starter-app.app.server-jetty :as jetty])
+    #?(:clj [electric-starter-app.app.system :as system])
+    #?(:clj [shadow.cljs.devtools.api :as shadow])
+    #?(:clj [shadow.cljs.devtools.server :as shadow-server])
+    #?(:clj [clojure.tools.logging :as log]))
+  #?(:clj (:import (org.eclipse.jetty.server Server))))
 
 #?(:clj ;; Server Entrypoint
    (do
+     (defonce ^:dynamic ^Server *jetty-server* nil)
+
      (def config
        {:host "0.0.0.0"
         :port 8080
@@ -25,19 +25,16 @@
 
        (shadow-server/start!)
        (shadow/watch :dev)
-       (comment (shadow-server/stop!))
 
-       (def server (jetty/start-server!
-                     (fn [ring-request]
-                       (e/boot-server {} electric-starter-app.main/Main ring-request system/*system*))
-                     config))
-
-       (comment (.stop server)))))
+       (alter-var-root #'*jetty-server* (constantly (jetty/start-server!
+                                                      (fn [ring-request]
+                                                        (e/boot-server {} electric-starter-app.app.main/Main ring-request system/*system*))
+                                                      config))))))
 
 
 #?(:cljs ;; Client Entrypoint
    (do
-     (def electric-entrypoint (e/boot-client {} electric-starter-app.main/Main nil))
+     (def electric-entrypoint (e/boot-client {} electric-starter-app.app.main/Main nil))
 
      (defonce reactor nil)
 
